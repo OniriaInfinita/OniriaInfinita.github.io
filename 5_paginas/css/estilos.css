@@ -1,0 +1,39 @@
+body {
+background-image: url("../images/fondo.jpg");
+background-attachment: fixed;
+background-repeat: no-repeat; 
+background-position: top center;
+background-size: cover; 
+text-align:center;
+font-family: "Playwrite MX Guides", cursive;
+}
+
+h1 {
+    background-color: #EDD464;   
+    color: white;  
+    border-left-width: 10px ; 
+    border-left-style: solid;
+    border-left-color: rgb(255, 157, 0);
+    font-family: "Sixtyfour", sans-serif;
+}
+
+img {
+    border: 5px solid black;
+    border-radius: 25px;
+    box-shadow: 10px 5px 5px rgba(156, 20, 20, 0.382);          
+    height: 300px;  
+}
+
+ul {
+    list-style-type:none;
+}
+
+li {
+    display:inline;
+    border: 3px solid #9c7210;
+    
+}
+
+a {
+    color:#EDE2B3;
+}
