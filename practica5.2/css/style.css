@@ -1,0 +1,288 @@
+
+header{
+  padding: 28px 16px 18px;
+  min-height: 230px;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+ /* 2. Título sobre el fondo que no se desplaza
+ con borde negro en las letras */
+  color: white;
+    text-shadow:
+    -2px -2px 0 black,
+     2px -2px 0 black,
+    -2px  2px 0 black,
+     2px  2px 0 black;
+}
+
+header h1{
+  margin: 0;
+  font-family: "Indie Flower";
+  font-size: 60px;
+}
+
+header p{
+  margin: 6px 0 0;
+  font-family: "Indie Flower";
+  font-size: 30px;
+}
+
+body{ 
+  /* el fondo está en body pero se ve ¿? */
+  margin: 0;
+  /* 2. El fondo NO se desplaza al hacer scroll */
+  background-image: url("../images/fondo.jpg"); 
+  background-repeat: no-repeat;
+  background-position: top center;    
+  background-size: cover;
+  background-attachment: fixed;
+
+  padding-top: 60px;
+}
+
+
+.menu {
+
+  position: fixed; /*1: menu superior fijo*/
+  top: 0; 
+  left: 0;
+  width: 100%; 
+  text-align: center;  
+  background-color: #0c8f7a;
+  border: 3px dashed white;
+  border-left: 3px solid #FF9900;
+  font-family: 'Pacifico';
+  font-size: 1em;
+}
+
+.menu ul{
+  margin: 0;
+  padding: 5px;
+  list-style: none;  /* Quitar los puntos de la lista */
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.menu a{
+  color: white;
+  text-decoration: none;
+  font-family: "Pacifico", cursive;
+  font-size: 18px;
+}
+
+.menu li a:hover{ /* 1- Subrayado al pasar el ratón */
+ 
+  text-decoration: underline solid 3px #FF9900; 
+  
+}
+
+.container{
+
+  margin: 20px auto 22px;
+  background: rgba(20, 20, 20, 0.904);
+  border-top: 6px dashed white;
+  padding: 20px;
+
+  display: flex;          
+  gap: 100px;  /* separación entre el contenido y el menú lateral */
+  
+}
+
+.main{
+  /* display: flex-wrap; ¿aquí?  */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* separación entre los dos articles */
+  border-right: 3px dashed white;
+  padding-right: 6%;
+}
+
+.main article h2, p{
+ 
+  color: #9cb5ae;
+  font-family: "Indie Flower";
+}
+
+.main article img{
+  border: 5px dashed white;
+  border-radius: 12px;
+  width: 200px;
+  height: 300px;
+}
+.main article.uno{
+  display: flex;     
+  flex-direction: row-reverse;
+   border: 2px dashed black;
+  border-radius: 12px;
+  padding: 20px 20px 20px 20px;
+  background: rgba(66, 65, 65, 0.904);
+}
+.imgRight{
+    float:right;
+    width: 120px;
+    margin-left: 20px;
+   
+}
+
+/* 4- imagen a la derecha */
+
+.main article.dos{
+   border: 2px dashed black;
+  border-radius: 12px;
+  padding: 20px 20px 20px 20px;
+  background: rgba(66, 65, 65, 0.904);
+  float:left;
+
+}
+
+.imgLeft {
+    float:left;
+    width: 120px;
+    margin-right: 20px;
+  
+}
+/* 4- imagen a la izquierda */
+
+.submenu{
+  position: sticky;  /* position: sticky;
+  5- menu lateral se queda fijo dentro del contenedor 
+  ¿¿cómo hago que flote dentro del contenedor??*/
+  
+}
+
+.submenu ul{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  display: flex;
+  flex-direction: column; /* 5- menu lateral vertical */
+  gap: 18px;
+  align-items: center;
+}
+
+.submenu a{
+  display: inline-block;
+}
+
+.submenu img{
+  width: 70px;
+  height: 70px;
+
+}
+
+.submenu a:hover{ /* 7- Subrayado al pasar el ratón */
+ 
+    box-shadow: 0 3px 0 0 #FF9900; 
+}
+
+#cookieEU {
+    /* 3. Cookies en el centro */
+  position: fixed;
+  left: 25%;
+  right: 25%;
+
+  margin: 0;
+  padding: 16px 18px 10px;
+  text-align: center;
+  background: white;
+  color: black;
+  border: 3px solid red;
+
+}
+
+#textCookie{
+   text-align: center;
+}
+
+/* 3. botón cockies*/
+#cookieEU .button{
+  display: inline-block;
+  padding: 10px 18px;
+  background: #0c8f7a;
+  color: white;
+  text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+#cookieEU .button:hover{
+  text-decoration: underline;
+}
+
+footer{ /* 6. pie de página con info empresa*/
+
+  position: fixed; 
+  bottom: 0; 
+  width: 100%; 
+  background: #0c8f7a;
+  border-top: 4px dashed white;
+  color: white;
+  text-align: center;
+  font-family: "Indie Flower", cursive;
+  font-size: 18px;
+   
+}
+
+footer a{
+  color: white;
+  text-decoration: none;
+}
+
+footer a:hover{
+   text-decoration: overline solid 3px #FF9900; 
+}
+
+@media all and (max-width: 700px) {
+    
+    .imgLeft {
+    float: none;
+      margin: auto; /*lo centro */
+    }
+    .imgRight {
+    float: none;
+    margin: auto; /*lo centro */
+ 
+    } 
+.main article.uno{
+  display: flex;     
+  flex-direction: column;
+     justify-content:center;
+
+}
+.main article.dos{
+  display: flex;     
+  flex-direction: column;
+     justify-content:center;
+
+}
+
+  .container{ /* paso el contenedor a columna */
+    flex-direction: column;
+       gap: 20px;  /* pongo menos separación entre el contenido y el menú */
+  }
+
+  .main{
+    border-right: none; /* Quito el borde derecho blanco */
+    padding-right: 0;
+  }
+
+  .submenu{
+    position: static;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .submenu ul{
+    flex-direction: row; /* 8-cambio menu lateral a horizontal abajo */
+    justify-content: center;
+      padding: 20px; /* para que no se me pegue al footer */
+  }
+
+.submenu img{
+  width: 40px;
+  height: 40px;
+
+}
+
