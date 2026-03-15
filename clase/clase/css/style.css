@@ -1,0 +1,25 @@
+h1 {
+    margin: 0px;
+}
+
+p {
+   margin-top: 0px;
+   margin-bottom: 20px;
+}
+#panel {
+    background-color: violet;
+    color: white;
+    display: inline-block;
+    min-width: 200px;
+    padding-right: 20px;
+    border-radius: 10px;
+}
+
+#solucion {
+    background-color: rgb(130, 159, 238);
+    color: white;
+    display: inline-block;
+    min-width: 200px;
+    padding-right: 20px;
+    border-radius: 10px;
+}

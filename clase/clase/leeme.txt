@@ -1,0 +1,69 @@
+app01
+0) interfaz básico: html + css + js
+1) DOM
+    formulario para añadir amigos
+    Muestro en div los amigos
+2) Eventos
+    añadir
+
+3) uso de arrays para almacenar los amigos, y push (para poder hacer que sean unicos)
+
+4) for each para presentarlos en pantalla
+
+
+
+
+5) uso de funciones anónimas y flecha
+// funcion anonima
+const unoMas= function (nombre){
+    amigos.push(nombre)
+}
+
+// funcion flecha
+const otroMas= (nombre) => {
+    amigos.push(nombre)
+}
+
+unoMas("Laura")
+otroMas("Lola")
+
+6) eventos eliminar
+    cambiar el render para que ponga los botones con data-id data-action
+    añadir los eventos
+    panel.addEventListener("click",(el)=>{
+    if (el.target.dataset.action=="borrar"){
+        let id=el.target.dataset.action
+        let indice=amigos.indexOf(id)
+        amigos.splice(indice,1)
+        render2()
+    }
+})
+
+7) Como usar un set para no repetir amigos iguales
+cambio el addamigo, el render, y los eventos
+
+8) uso de spread para clonar
+
+amigos2=[...amigos,"1","2","3"]
+console.log(amigos2)
+
+o 
+let amigos2=amigos.slice()
+9) Enseñar eventos para añadir y borrar amigos, realizar el reparto.
+
+function reparteDefinir(){
+    //copio los amigos en clientes
+    // recorro los amigos que tienen que tener regalar
+        // elijo un cliente aleatorio
+        // si son iguales vuelvo a elejir un cliente aleatorio
+        // si no es el 
+            //guardo en un map amigo : cliente
+            //saco el cliente de los posibles para que no se repita
+    // problema, puede quedar un único cliente y ser el mismo. Tengo que volver a empezar!.
+
+}
+
+
+function aleatorio(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
