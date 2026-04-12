@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spock</title>
+</head>
+<style>
+    /* Estilos generales */
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #2b5876, #4e4376);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 3rem;
+        margin-top: 20px;
+        color: #ffcc00;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    p, label {
+        font-size: 1.2rem;
+    }
+
+    ul {
+        margin-left: 20px;
+        list-style-type: square;
+    }
+
+    ul li {
+        margin-bottom: 5px;
+    }
+
+    select {
+        padding: 10px;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+    }
+
+    .resultados {
+        margin-top: 20px;
+    }
+
+    .resultado-card {
+        background-color: rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        padding: 20px 30px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .resultado-elecciones {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+        color: #e0e0ff;
+    }
+
+    .resultado-elecciones span {
+        font-weight: bold;
+        color: #ffcc00;
+        text-transform: capitalize;
+    }
+
+    .resultado-veredicto {
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 0;
+        letter-spacing: 1px;
+    }
+
+    .veredicto-ganaste  { color: #00ac00; text-shadow: 0 0 10px rgba(0, 0, 0, 0.5); }
+    .veredicto-perdiste { color: #ffffff; text-shadow: 0 0 10px rgba(0, 0, 0, 0.5); }
+    .veredicto-empate   { color: #ffcc00; text-shadow: 0 0 10px rgba(255,204,0,0.5); }
+    .veredicto-espera   { color: #aaa; font-size: 1.2rem; }
+
+    .pensando {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .btn-jugar {
+        display: block;
+        margin: 20px auto;
+        background-color: #ffcc00;
+        color: #000;
+        padding: 10px 15px;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-jugar:hover {
+        background-color: #ffaa00;
+    }
+
+    .btn-reiniciar {
+        display: none;
+        margin: 15px auto 0;
+        background-color: rgba(255,255,255,0.2);
+        color: #fff;
+        padding: 10px 24px;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: 2px solid #ffcc00;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .btn-reiniciar:hover {
+        background-color: rgba(255,204,0,0.25);
+    }
+</style>
+<body>
+    <h1>¡Frikie!</h1>
+    <div class="container">
+        <p>Elige una opción para jugar a piedra, papel, tijera, lagarto o spock. Al ordenador le cuesta pensar unos segundos, así que tendrás tiempo de sobra para elegir tu opción.</p>
+        
+        <h2>Reglas del juego:</h2>
+        <ul>
+            <li>Tijera corta Papel.</li>
+            <li>Papel cubre Piedra.</li>
+            <li>Piedra aplasta Tijera.</li>
+            <li>Lagarto envenena Spock.</li>
+            <li>Spock rompe Tijera.</li>
+            <li>Tijera decapita Lagarto.</li>
+            <li>Lagarto come Papel.</li>
+            <li>Papel desaprueba Spock.</li>
+            <li>Spock vaporiza Piedra.</li>
+            <li>Piedra aplasta Lagarto.</li>
+        </ul>
+
+        <div class="opciones btn-jugar">
+            <label for="playerChoice">Elige tu opción:</label>
+            <select id="playerChoice" >
+                <option value="" selected>Escoge algo</option>
+                <option value="piedra">Piedra</option>
+                <option value="papel">Papel</option>
+                <option value="tijera">Tijera</option>
+                <option value="lagarto">Lagarto</option>
+                <option value="spock">Spock</option>
+            </select>
+        </div>
+
+        <div class="pensando">
+            <p id="ordenadorElige">Ordenador Pensando elección ...</p>
+        </div>
+
+        <div class="resultados">
+            <div class="resultado-card">
+                <p class="resultado-elecciones" id="elecciones">Elige una opción para jugar.</p>
+                <p class="resultado-veredicto veredicto-espera" id="resultado">—</p>
+            </div>
+            <button class="btn-reiniciar" id="btnReiniciar" onclick="reiniciar()">Volver a jugar</button>
+        </div>
+
+
+    </div>
+    
+    <script>
+        let tiempoPensar=5; // Tiempo inicial en segundos, lo pongo abajo en el setTimeout
+        const opciones = ["piedra", "papel", "tijera", "lagarto", "spock"];
+        const reglas = {
+                piedra: ["tijera", "lagarto"],
+                papel: ["piedra", "spock"],
+                tijera: ["papel", "lagarto"],
+                lagarto: ["spock", "papel"],
+                spock: ["tijera", "piedra"]
+            };
+        const listaOpciones = document.getElementById("playerChoice");
+        let jugadorEscoge;
+        let ordenadorEscoge;
+        const eleccionesEl = document.getElementById("elecciones");
+        const resultadoEl  = document.getElementById("resultado");
+        const btnReiniciar = document.getElementById("btnReiniciar");
+
+        // añado NUMERO ALEATORIO para que pueda escoger el ordenador
+            function numeroAleatorio(array){
+                return Math.floor(Math.random() * (array.length));
+     }
+        numeroAleatorio(opciones)
+
+        //parte del evento que debo de añadir también
+        listaOpciones.addEventListener("change", function() {
+            eleccionesEl.innerHTML="Tú elegiste: " + listaOpciones.value;
+            jugadorEscoge = listaOpciones.value;          
+
+        });
+
+        // decide quien gana
+        function quienGana(jugador, ordenador) {
+            console.log("jugador: ", jugador, " ordenador: ", ordenador);
+
+            // Limpiar clases de veredicto previas
+            resultadoEl.className = "resultado-veredicto";
+
+            if (!jugador || !ordenador) {
+                eleccionesEl.innerHTML = jugador
+                    ? `Tú elegiste: <span>${jugador}</span>. Espera a que el ordenador elija.`
+                    : "Elige una opción para jugar.";
+                resultadoEl.textContent = "—";
+                resultadoEl.classList.add("veredicto-espera");
+                btnReiniciar.style.display = "none";
+                return;
+            }
+
+            eleccionesEl.innerHTML = `Tú elegiste: <span>${jugador}</span> &nbsp;|&nbsp; Ordenador eligió: <span>${ordenador}</span>`;
+
+            if (jugador === ordenador) {
+                resultadoEl.textContent = "¡Empate!";
+                resultadoEl.classList.add("veredicto-empate");
+            } else if (reglas[jugador] && reglas[jugador].includes(ordenador)) {
+                resultadoEl.textContent = "¡Ganaste!";
+                resultadoEl.classList.add("veredicto-ganaste");
+            } else if (reglas[ordenador] && reglas[ordenador].includes(jugador)) {
+                resultadoEl.textContent = "¡Perdiste!";
+                resultadoEl.classList.add("veredicto-perdiste");
+            } else {
+                resultadoEl.textContent = "Error en las reglas.";
+                resultadoEl.classList.add("veredicto-espera");
+            }
+
+            btnReiniciar.style.display = "block";
+        }
+
+        // reinicia la partida
+        function reiniciar() {
+            jugadorEscoge = undefined;
+            ordenadorEscoge = undefined;
+            tiempoPensar = 5;
+            listaOpciones.value = "";
+            document.getElementById("ordenadorElige").textContent = "Ordenador Pensando elección ...";
+            eleccionesEl.innerHTML = "Elige una opción para jugar.";
+            resultadoEl.className = "resultado-veredicto veredicto-espera";
+            resultadoEl.textContent = "—";
+            btnReiniciar.style.display = "none";
+            descuenta();
+        }
+
+        //Promesa cuando pase el tiempo establecido el ordenador escoge
+        function descuenta(){
+         return new Promise((resolve) => {
+            setTimeout(() => {
+            tiempoPensar--; 
+                     //document.getElementById("ordenadorElige").innerHTML = segundos;
+                   document.getElementById("resultado").innerHTML = tiempoPensar;
+                    if (tiempoPensar > 0) {   
+           descuenta(); // Llamada recursiva hasta llegar a cero
+                    } else {
+                resolve("¡He terminado!");
+             //   document.getElementById("resultado").innerHTML = `Ordenador eligió: ${numeroAleatorio(opciones)}`; REPASAR ESTO
+                ordenadorEscoge = opciones[numeroAleatorio(opciones)];
+               document.getElementById("ordenadorElige").textContent = "El ordenador ya ha elegido :)";
+               quienGana(jugadorEscoge, ordenadorEscoge);
+                    }
+                }, 1000); // Espera de un segundo
+            });
+        }
+        // Inicialización de la cuenta regresiva
+       // let segundos = 5; // Tiempo inicial en segundos
+       // document.getElementById("ordenadorElige").innerHTML = segundos;
+      document.getElementById("resultado").innerHTML = tiempoPensar; // Mostrar el tiempo inicial     
+                
+        // el ordenador escoge tras pasar un tiempo
+        descuenta(); // Iniciar la cuenta regresiva
+
+    </script>
+
+</body>
+</html>

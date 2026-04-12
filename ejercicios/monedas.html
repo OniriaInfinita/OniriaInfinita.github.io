@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambio simple</title>
+</head>
+<body>
+    <h1>Conversor de divisas</h1>
+    <h2>con https://frankfurter.dev/</h2>
+    Cantidad: <input type="number" id="cantidad" value="1">
+    <br> <input type="button" value="Convertir" id="convertir">
+    <div id="resultado"></div>
+    <script>
+        let moneda="EUR"
+        //let moneda="USD"
+        let url=`https://api.frankfurter.dev/v1/latest?base=${moneda}`
+
+        let cantidad=document.getElementById("cantidad")
+        let convertirBtn=document.getElementById("convertir")
+        let resultado=document.getElementById("resultado")
+
+        //funciones
+        /*
+            Devuelve un li con los datos de la moneda
+        */
+        function creaElemento(valor, clave) {            
+            let total= Math.round(parseFloat(cantidad.value)*parseFloat(valor)*100)/ 100
+            
+            /*  aquí creo la lista  */
+           
+            let liElement = document.createElement("li");
+             liElement.textContent = `${clave}: ${total}`;
+            
+               
+            return liElement
+        }
+
+        
+        /*
+            Obtiene los cambios y los pinta en pantalla 
+        */
+        async function convertir(){        
+            //resultado.innerHTML=`1 ${moneda} = ${datos["rates"][moneda]} USD`
+            fetch(url)
+                .then(response => response.json())
+                .then(datos => {
+                    // haz cosas con los datos        
+                    console.log(datos);
+                    let cambios=Object.entries(datos.rates)                    
+
+                    cambios.forEach(([clave, valor]) => {
+                        console.log(clave, valor);
+                        /*  ACABALO --> //usa creaElemento(valor, clave) */
+                        let li = creaElemento(valor, clave);
+                        resultado.appendChild(li);   
+                    });
+                    
+                })
+                .catch(error => console.log(error));                        
+        }
+        //eventos
+        convertirBtn.addEventListener("click", function(){
+            resultado.innerHTML=""
+            convertir()
+        })
+
+
+    </script>
+</body>
+</html>

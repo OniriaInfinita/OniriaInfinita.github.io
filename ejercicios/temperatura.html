@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clima en Valencia</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #0056b3;
+      margin-bottom: 3em;
+    }
+
+    #weather {
+      font-size: 1.2em;
+      margin: 20px 0;
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="text"] {
+      padding: 5px;
+      font-size: 1em;
+      margin-right: 10px;
+    }
+
+    button {
+      padding: 5px 10px;
+      font-size: 1em;
+      background-color: #0056b3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #003d80;
+    }
+  </style>
+</head>
+<body> 
+  <h1 id="titulo">Clima actual</h1>
+  <p id="weather">Cargando...</p>
+
+  <form action="#" method="get">
+    <label for="city">Ciudad:</label>
+    <input type="text" id="city" name="city" value="Valencia">
+    <button type="button" id="boton">Actualizar</button>
+  </form>
+
+  <script>
+    // URL de la API con tu clave (sustituye 'TU_API_KEY' por tu clave real) --> OK
+    const apiKey = '3f9d9a35caf787af51ffc8a52d542543';
+    let titulo = document.getElementById('titulo');
+    let boton=document.getElementById('boton'); 
+    let inputCiudad = document.getElementById('city');
+    //creamos la variable weather para acceder después desde JS
+    let weather = document.getElementById('weather');
+
+    boton.addEventListener('click', function(event) {
+      event.preventDefault(); // Evita que el formulario se envíe
+      obtenerClima();
+    });
+
+    // Detectar la tecla Enter en el campo de texto
+    inputCiudad.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault(); // Evita que el formulario se envíe
+        obtenerClima(); // Llama a la función obtenerClima()
+      }
+    });
+
+    function obtenerClima() {
+      const ciudad = inputCiudad.value;
+      //const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad},ES&units=metric&appid=${apiKey}`;
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&lang=es&units=metric&appid=${apiKey}`;
+      titulo.innerHTML="Clima actual " +  ciudad;
+      // Usamos fetch para obtener los datos del clima
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error al obtener los datos del clima: ' + response.statusText);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Extraemos los datos relevantes
+          const temperature = data.main.temp;
+          const description = data.weather[0].description;
+          const humidity = data.main.humidity;
+
+          // Creo esta linea de código -->
+          // donde estaba "cargando..." aparece la info // <p id="weather">Cargando...</p>
+          weather.innerHTML = `Temperatura: ${temperature} - Descripción: ${description} - Humedad: ${humidity}`;
+           
+        })
+        .catch(error => {
+          console.error('Hubo un problema:', error);
+          document.getElementById('weather').textContent = `No se pudo obtener el clima.${error.message}`;
+        });
+    }
+    // Llamamos a la función para obtener el clima al cargar la página
+        obtenerClima();
+  </script>
+</body>
+</html>

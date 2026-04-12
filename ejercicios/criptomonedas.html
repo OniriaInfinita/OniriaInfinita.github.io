@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor cripto simple</title>
+
+</head>
+<body>
+  <div class="contenedor">
+    <h1>Conversor de criptomonedas</h1>
+
+    <div class="formulario">
+      Euros: <input type="number" id="cantidad" value="100" min="0" step="0.01">
+      <input type="button" id="convertir" value="Convertir">
+    </div>
+
+    <div id="resultados" class="resultados"></div>
+    <p id="error" class="error"></p>
+  </div>
+
+  <script>
+    //variables
+    //moneda
+    let moneda = "EUR";
+    // criptos
+    let lista= ["BTC", "ETH", "SOL", "DOGE"]
+    let cantidad = document.getElementById("cantidad");
+    let convertirBtn = document.getElementById("convertir");
+    let resultados = document.getElementById("resultados");
+    let error = document.getElementById("error");
+
+    
+    /*
+      Devuelve un li con los datos de la moneda
+    */
+    function creaElemento(cripto,cambio,cantidad) {    
+      /*  ACABALO --> //sigo como el ejercicio anterior de "monedas"  */
+       let total= Math.round(parseFloat(cantidad.value)*parseFloat(cambio)*100)/ 100        
+      //let liElement ... importante llamar a cripto y total
+     let liElement = document.createElement("li");
+      liElement.textContent = `${cripto}: ${total}`;
+
+      return liElement
+    }
+    
+
+    async function convertir() {
+      error.textContent = "";
+      resultados.innerHTML = "";
+      
+      // cuanto dinero
+      const valor = parseFloat(cantidad.value);
+      //errores
+      if (isNaN(valor) || valor <= 0) {
+        error.textContent = "Introduce una cantidad válida";
+        return;
+      }
+
+
+      // pido el precio de cada cripto
+      let listaResultados = [];
+      let url =""
+      let ulElement=document.createElement("ul")
+
+      // esta api solo permite 1 moneda cada vez por eso el bucle
+      lista.forEach((cripto) => {
+        console.log(cripto)
+        url = `https://api.coinbase.com/v2/prices/${cripto}-${moneda}/spot`;
+
+        fetch(url)
+        .then(response => response.json())
+        .then(datos => {
+                       
+            let cambio=datos.data.amount
+            console.log("==>"+cambio);
+            //usa creaElemento(cripto,cambio,cantidad) -->
+            let li = creaElemento(cripto, cambio, cantidad);
+            ulElement.appendChild(li);   
+          
+
+        })
+        .catch(e => {
+          console.log("ERROR: " + e)
+          error.textContent = "Error al obtener los datos"
+        });       
+      })
+      resultados.appendChild(ulElement)
+
+    }
+
+    //eventos
+    convertirBtn.addEventListener("click", () => {
+      console.log("click")
+      convertir()
+    });
+
+    //main
+  </script>
+</body>
+</html>
